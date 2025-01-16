@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <template v-if="!$route.meta.hideNavbar">
  <SideBar/>
   <!-- <Home /> -->
  <v-app-bar app color="black" dark v-if="!$route.meta.hideNavbar"
@@ -15,10 +16,10 @@
       </div>
  
     </v-app-bar>
-      
+    </template>
     <v-main>
         <!-- Breadcrumb -->
-        <div class="breadcrumb-container">
+        <div v-if="!$route.meta.hideNavbar" class="breadcrumb-container">
       <v-breadcrumbs :items="breadcrumbItems">
         <template v-slot:title="{ item }">
           {{ item.title }}
