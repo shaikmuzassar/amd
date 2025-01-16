@@ -1,6 +1,7 @@
 <template>
   <v-app>
  <SideBar/>
+  <!-- <Home /> -->
  <v-app-bar app color="black" dark v-if="!$route.meta.hideNavbar"
       :style="{ 'background-color': 'rgb(37 41 44) !important' }">
       <v-app-bar-nav-icon class="drawer-icon" @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -14,7 +15,7 @@
       </div>
  
     </v-app-bar>
-     
+      
     <v-main>
         <!-- Breadcrumb -->
         <div class="breadcrumb-container">
@@ -31,13 +32,14 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Home from './components/Home.vue';
 import SideBar from './components/SideBar.vue';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,SideBar
+    HelloWorld,SideBar ,Home
   },
 
   data: () => ({

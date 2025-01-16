@@ -1,28 +1,49 @@
 <!-- BenchMark.vue -->
 <template>
+
   <v-data-table
     :headers="headers"
     :items="desserts"
     :sort-by="[{ key: 'calories', order: 'asc' }]"
+     :search="search"
+     class="custom-table"
   >
-    <template v-slot:top>
+  <template v-slot:item.index="{ index }">
+    {{ index + 1 }}
+  </template>
+    <template v-slot:top >
       <v-toolbar
         flat
+         class="white-background"
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Bench Mark Template</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
+   
+
+
+        <!-- Search Field -->
+        <v-text-field
+          v-model="search"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+          single-line
+          class="mr-3"
+          style="max-width: 300px"
+        ></v-text-field>
         <v-dialog
           v-model="dialog"
           max-width="500px"
         >
           <template v-slot:activator="{ props }">
             <v-btn
-              class="mb-2"
+              class="new-item-btn"
               color="primary"
               dark
               v-bind="props"
@@ -45,7 +66,7 @@
                   >
                     <v-text-field
                       v-model="editedItem.name"
-                      label="Dessert name"
+                      label="Name"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -157,12 +178,7 @@
       dialog: false,
       dialogDelete: false,
       headers: [
-        {
-          title: '#',
-          align: 'start',
-          sortable: false,
-          key: 'index',
-        },
+      { title: '#', key: 'index', align: 'start', sortable: false },
         { title: 'Name', key: 'name' },
         { title: 'Benchmark', key: 'benchmark' },
         { title: 'Category', key: 'category' },
@@ -171,20 +187,21 @@
         { title: 'Actions', key: 'actions', sortable: false },
       ],
       desserts: [],
+      search: '',
       editedIndex: -1,
       editedItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        benchmark: 0,
+        category: 0,
+        status: 0,
+        date: 0,
       },
       defaultItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        benchmark: 0,
+        category: 0,
+        status: 0,
+        date: 0,
       },
     }),
 
@@ -211,7 +228,7 @@
       initialize () {
         this.desserts = [
           {
-            name: 'TCO-H_ORACLE',
+            name: 'HELLO_ORACLE',
             benchmark: "H_ORACLE",
             category: "Database",
             status: "APPROVED",
@@ -332,4 +349,20 @@
     name: 'BenchMark',
   };
   </script> -->
-  
+  <style>
+.new-item-btn {
+  background-color: black;
+  color: white;
+}
+.custom-header {
+  background-color: black;
+  color: white;
+  text-align: left;
+  padding: 8px;
+  font-weight: bold;
+}
+.white-background {
+  background-color: white;
+  color: black; /* Ensure text is readable */
+}
+</style>
