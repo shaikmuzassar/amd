@@ -316,7 +316,7 @@
       <v-btn class="space-btn" @click="verify"> SUBMIT </v-btn>
     </div>
     <div class="space">
-      <v-btn class="space-btn" @click="verify"> CANCEL</v-btn>
+      <v-btn class="space-btn" @click="navigateToStart" > CANCEL</v-btn>
     </div>
     <div class="space">
       <v-btn class="space-btn" @click="verify"> SAVE RUN PARAMETERS </v-btn>
@@ -339,6 +339,9 @@ export default {
     };
   },
   methods: {
+    navigateToStart() {
+    this.$router.push('/benchmark-template');
+  },
     verify() {
       this.isVerified = true; // Set verified to true when the button is clicked
     },

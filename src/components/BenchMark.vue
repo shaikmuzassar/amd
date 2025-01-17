@@ -16,7 +16,7 @@
         flat
          class="white-background"
       >
-        <v-toolbar-title>Bench Mark Template</v-toolbar-title>
+        <v-toolbar-title>Benchmark Template</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -44,7 +44,7 @@
           <template v-slot:activator="{ props }">
             <v-btn
               class="new-item-btn"
-            
+             @click="navigateToStart"
               dark
               v-bind="props"
             >
@@ -155,9 +155,9 @@
       </v-icon>
       <v-icon
         size="small"
-        @click="deleteItem(item)"
+        @click="navigateToStart(item)"
       >
-        mdi-delete
+      mdi-play
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -225,6 +225,9 @@
     },
 
     methods: {
+      navigateToStart() {
+    this.$router.push('/start');
+  },
       initialize () {
         this.desserts = [
           {

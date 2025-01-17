@@ -7,10 +7,10 @@ import Start from '@/components/Start.vue';
 
 const routes = [
   { path: '/', redirect: '/benchmark-template', meta: { breadcrumb: 'Home' } },
-  { path: '/benchmark-template', component: BenchMark ,name: 'Bench Mark Template', meta: { breadcrumb: 'Bench Mark Template' }},
+  { path: '/benchmark-template', component: BenchMark ,name: 'Benchmark Template', meta: { breadcrumb: 'Benchmark Template' }},
   { path: '/server-pool', component: ServerPool, name: 'Server Pool', meta: { breadcrumb: 'Server Pool' }  },
   {path:"/login" ,component: Login , name:"Login" , meta: { hideNavbar: true },},
-  {path: '/start',component:Start, name: Start ,meta: { breadcrumb: 'Start'}}
+  {path: '/start',component:Start, name: "Schedule Test" ,meta: { breadcrumb: 'Start'}}
 ];
 
 const router = createRouter({
