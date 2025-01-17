@@ -44,7 +44,7 @@
           <template v-slot:activator="{ props }">
             <v-btn
               class="new-item-btn"
-              color="primary"
+            
               dark
               v-bind="props"
             >
