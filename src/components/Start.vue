@@ -108,7 +108,8 @@
         width="300"
       ></v-select>
     </div>
-    <p v-if="isVerified">
+    <div v-if="isVerified">
+    <p>
       AMD EPYC 9755 128-Core Processor<br />
       Total RAM: 1547142 MB<br />
       OS Name: Oracle<br />
@@ -313,7 +314,7 @@
   </div>
     <div class="btn">
       <div class="space">
-      <v-btn class="space-btn" @click="verify"> SUBMIT </v-btn>
+      <v-btn class="space-btn" @click="submit"> SUBMIT </v-btn>
     </div>
     <div class="space">
       <v-btn class="space-btn" @click="navigateToStart" > CANCEL</v-btn>
@@ -322,6 +323,7 @@
       <v-btn class="space-btn" @click="verify"> SAVE RUN PARAMETERS </v-btn>
     </div>
     </div>
+  </div>
   </v-card>
 </template>
 
@@ -344,6 +346,9 @@ export default {
   },
     verify() {
       this.isVerified = true; // Set verified to true when the button is clicked
+    },
+    submit(){
+      this.isVerified = false;
     },
   },
 };
