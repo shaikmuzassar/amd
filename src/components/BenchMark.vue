@@ -155,7 +155,7 @@
       </v-icon>
       <v-icon
         size="small"
-        @click="navigateToStart(item)"
+        @click="navigateToPage(item)"
       >
       mdi-play
       </v-icon>
@@ -172,9 +172,17 @@
 </template>
   
 <script>
+
   export default {
     name: 'BenchMark',
     data: () => ({
+      routingMap: {
+      '1': '/Nginx',
+      '2': '/FFMPEG',
+      'TCO-H_ORACLE': '/database-config',
+      // Add more mappings as needed
+    },
+
       dialog: false,
       dialogDelete: false,
       headers: [
@@ -186,6 +194,7 @@
         { title: 'Date', key: 'date' },
         { title: 'Actions', key: 'actions', sortable: false },
       ],
+
       desserts: [],
       search: '',
       editedIndex: -1,
@@ -209,7 +218,13 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
+      benchmarkName() {
+      return this.$store.state.benchmarkName
     },
+    secondBenchmarkName() {
+      return this.$store.state.secondBenchmarkName
+    }
+  },
 
     watch: {
       dialog (val) {
@@ -218,27 +233,36 @@
       dialogDelete (val) {
         val || this.closeDelete()
       },
+      benchmarkName() {
+      // Reinitialize the desserts when the name changes
+      this.initialize();
     },
-
+    secondBenchmarkName() {
+      this.initialize();
+    },
+    },
     created () {
-      this.initialize()
-    },
-
+      this.initialize();
+      },
     methods: {
-      navigateToStart() {
-    this.$router.push('/start');
-  },
+      navigateToPage(item) {
+      // Get the route from the mapping, fallback to '/start' if not found
+      const route = this.routingMap[item.id] || '/start';
+      this.$router.push(route);
+    },
       initialize () {
         this.desserts = [
-          {
-            name: 'HELLO_ORACLE',
+          { 
+            id: 1,
+            name: this.benchmarkName ? this.benchmarkName : 'Nginx',
             benchmark: "H_ORACLE",
             category: "Database",
             status: "APPROVED",
             date:"Jan/21/2025"
           },
-          {
-            name: 'TCO-H_ORACLE',
+          { 
+            id: 2,
+            name: this.secondBenchmarkName ? this.secondBenchmarkName : 'FFMPEG',
             benchmark: "H_ORACLE",
             category: "Database",
             status: "APPROVED",
@@ -347,11 +371,7 @@
     },
   }
 </script>
-  <!-- <script>
-  export default {
-    name: 'BenchMark',
-  };
-  </script> -->
+
   <style>
 .new-item-btn {
   background-color: black;
