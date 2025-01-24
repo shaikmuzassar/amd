@@ -15,6 +15,13 @@
             value="785"
           ></v-list-item>
           <v-list-item
+            title="Search Result"
+            to="/search-result"
+            prepend-icon="mdi-magnify"
+            class="items"
+            value="786"
+          ></v-list-item>
+          <v-list-item
             title="Benchmark runs"
           
             prepend-icon="mdi-approximately-equal"
