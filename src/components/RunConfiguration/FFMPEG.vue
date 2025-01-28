@@ -1,83 +1,4 @@
 <template>
-  <v-card elevation="2" class="card">
-    <p>Start / Schedule Test</p>
-    <v-select
-      v-model="runCategory"
-      class="alignment"
-      density="compact"
-      label="Run Category"
-      placeholder="Run Category"
-      :items="[
-        'Benchmark_Test',
-        'Colorado',
-        'Florida',
-        'Georgia',
-        'Texas',
-        'Wyoming',
-      ]"
-      variant="outlined"
-      width="577"
-      :error="!runCategory && isRunCategoryTouched"
-      :error-messages="
-        !runCategory && isRunCategoryTouched ? ['Required.'] : []
-      "
-      @change="handleRunCategoryChange"
-      @blur="isRunCategoryTouched = true"
-    ></v-select>
-    <div class="SecondRow">
-      <v-select
-        v-model="groupName"
-        class="alignment"
-        density="compact"
-        label="Group Name"
-        placeholder="Group Name"
-        :items="[
-          'Benchmark_Test',
-          'Colorado',
-          'Florida',
-          'Georgia',
-          'Texas',
-          'Wyoming',
-        ]"
-        variant="outlined"
-        width="500"
-        :error="!groupName && isGroupNameTouched"
-        :error-messages="!groupName && isGroupNameTouched ? ['Required.'] : []"
-        @change="handleGroupNameChange"
-        @blur="isGroupNameTouched = true"
-      ></v-select>
-      <v-text-field
-        class="text-area"
-        density="compact"
-        label="Name"
-        value="Benchmark_Test_FFMPEG_843010"
-        variant="outlined"
-        width="500"
-        persistent-placeholder
-      ></v-text-field>
-    </div>
-    <div class="SecondRow">
-      <v-text-field
-        class="text-area"
-        density="compact"
-        label="Template Name"
-        placeholder="FFMPEG"
-        variant="outlined"
-        width="500"
-        persistent-placeholder
-        v-model="secondBenchmarkName"
-        @input="updateSecondName"
-      ></v-text-field>
-      <v-text-field
-        class="text-area"
-        label="Description"
-        density="compact"
-        placeholder="Benchmark for FFMPEG"
-        variant="outlined"
-        width="500"
-        persistent-placeholder
-      ></v-text-field>
-    </div>
     <p>Platform Details</p>
     <div class="toggle">
       <v-switch color="primary"></v-switch>
@@ -103,7 +24,7 @@
           width="300"
           v-model="selectedSUT"
           @change="handleSelection"
-          @click="validateForm"
+          @click="triggerParentFunction"
         ></v-select>
         <!--Select SUT ends-->
         <p2 v-if="verificationStatus" :style="verificationStyle">{{
@@ -469,6 +390,12 @@
             variant="outlined"
             width="385"
             persistent-placeholder
+            :error="!runCategory && isRunCategoryTouched"
+        :error-messages="
+          !runCategory && isRunCategoryTouched ? ['Required.'] : []
+        "
+        @change="handleRunCategoryChange"
+        @blur="isRunCategoryTouched = true"
           ></v-select>
         </div>
         <div class="switch-div-size"><!--v-model="model9"-->
@@ -539,7 +466,7 @@
                 <template v-slot:actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn @click="handleSelection"> Submit </v-btn>
+                  <v-btn @click="dialog = false"> Submit </v-btn>
 
                   <v-btn @click="dialog = false"> Cancel </v-btn>
                 </template>
@@ -557,7 +484,6 @@
       </div>
     </div>
     <!-- bv4h2g3-vm-ubuntu2310_test Content ends -->
-  </v-card>
 </template>
   
   <script>
@@ -574,7 +500,6 @@ export default {
       model8: false,
       model9: false,
 
-      secondBenchmarkName: '',
 
       formData: {
         inputFile: '',
@@ -747,9 +672,9 @@ export default {
         <pre style="white-space: pre-wrap; word-break: break-word;">${this.formData.additionalParams || 'None'}</pre>
       `
     },
-    updateSecondName() {
-      this.$store.commit('updateSecondBenchmarkName', this.secondBenchmarkName)
-    }
+    triggerParentFunction() {
+      this.$emit("callParentFunction"); // Emit the event
+    },
   },
 };
 </script>

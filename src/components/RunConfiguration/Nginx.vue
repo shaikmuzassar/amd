@@ -1,83 +1,4 @@
   <template>
-    <v-card elevation="2" class="card">
-      <p>Start / Schedule Test</p>
-      <v-select
-        v-model="runCategory"
-        class="alignment"
-        density="compact"
-        label="Run Category"
-        placeholder="Run Category"
-        :items="[
-          'Benchmark_Test',
-          'Colorado',
-          'Florida',
-          'Georgia',
-          'Texas',
-          'Wyoming',
-        ]"
-        variant="outlined"
-        width="577"
-        :error="!runCategory && isRunCategoryTouched"
-        :error-messages="
-          !runCategory && isRunCategoryTouched ? ['Required.'] : []
-        "
-        @change="handleRunCategoryChange"
-        @blur="isRunCategoryTouched = true"
-      ></v-select>
-      <div class="SecondRow">
-        <v-select
-          v-model="groupName"
-          class="alignment"
-          density="compact"
-          label="Group Name"
-          placeholder="Group Name"
-          :items="[
-            'Benchmark_Test',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-          variant="outlined"
-          width="500"
-          :error="!groupName && isGroupNameTouched"
-          :error-messages="!groupName && isGroupNameTouched ? ['Required.'] : []"
-          @change="handleGroupNameChange"
-          @blur="isGroupNameTouched = true"
-        ></v-select>
-        <v-text-field
-          class="text-area"
-          density="compact"
-          label="Name"
-          value="Benchmark_Test_Nginx_439210"
-          variant="outlined"
-          width="500"
-          persistent-placeholder
-        ></v-text-field>
-      </div>
-      <div class="SecondRow">
-        <v-text-field
-          class="text-area"
-          density="compact"
-          label="Template Name"
-          placeholder="Nginx"
-          variant="outlined"
-          width="500"
-          persistent-placeholder
-          v-model="benchmarkName"
-          @input="updateName"
-        ></v-text-field>
-        <v-text-field
-          class="text-area"
-          label="Description"
-          density="compact"
-          placeholder="Nginx Micro-Benchmark"
-          variant="outlined"
-          width="500"
-          persistent-placeholder
-        ></v-text-field>
-      </div>
       <p>Platform Details</p>
       <div class="toggle">
         <v-switch color="primary"></v-switch>
@@ -103,7 +24,7 @@
               width="300"
               v-model="selectedSUT"
               @change="handleSelection"
-              @click="validateForm"
+              @click="triggerParentFunction"
             ></v-select>
             <!--Select SUT ends-->
             <p2 v-if="verificationStatus" :style="verificationStyle">{{
@@ -373,6 +294,7 @@
         <div class="run-para-row1">
           <v-text-field
             class="text-area info-icon"
+            v-model="formData.kbSize"
             density="compact"
             label="KB Size"
             placeholder="KB Size"
@@ -384,6 +306,7 @@
           ></v-text-field>
           <v-text-field
             class="text-area info-icon"
+            v-model="formData.threads"
             density="compact"
             label="Threads"
             placeholder="Threads"
@@ -395,6 +318,7 @@
           ></v-text-field>
           <v-text-field
             class="text-area info-icon"
+            v-model="formData.connections"
             density="compact"
             label="Number of connections"
             placeholder="Number of connections"
@@ -408,6 +332,7 @@
         <div class="run-para-row2 ">
             <v-text-field
               class="text-area info-icon"
+              v-model="formData.duration"
               density="compact"
               label="Duration (in secs)"
               placeholder="Number of connections"
@@ -420,7 +345,7 @@
             <div class="switch-div-size">
               <v-switch
               color="info"
-              v-model="model7"
+              v-model="formData.captureLatency"
               label="Capture latency Statitics"
               hide-details
               inset
@@ -430,6 +355,7 @@
             </div>
             <v-text-field
               class="text-area info-icon"
+              v-model="formData.header"
               density="compact"
               label="Header(Optional)"
               placeholder="Header(Optional)"
@@ -443,6 +369,7 @@
             <v-text-field
               class="text-area info-icon"
               density="compact"
+              v-model="formData.timeout"
               label="Timeout (Optional in secs)"
               placeholder="Timeout (Optional in secs)"
               variant="outlined"
@@ -452,6 +379,7 @@
             <v-text-field
               class="text-area info-icon"
               density="compact"
+              v-model="formData.luaScript"
               label="LuaJIt script (Optional-in secs)"
               placeholder="LuaJIt script (Optional-in secs)"
               variant="outlined"
@@ -461,7 +389,7 @@
             <div class="switch-div-size">
               <v-switch
               color="info"
-              v-model="model8"
+              v-model="formData.useSutIp"
               label="Use SUT IP"
               hide-details
               inset
@@ -475,6 +403,7 @@
             <div class="textfield-width-div">
               <v-select
             class="alignment"
+            v-model="formData.numberOfRuns"
             density="compact"
             label="No. of Runs"
             value="1"
@@ -487,7 +416,7 @@
             <div class="switch-div-size">
               <v-switch
               color="info"
-              v-model="model9"
+              v-model="formData.runTurbostat"
               label="Run Turbostat"
               hide-details
               inset
@@ -500,6 +429,7 @@
             <v-select
             class="alignment"
             density="compact"
+            v-model="formData.priority1"
             label="Priority (Optional)"
             :items="['1', '2', '3', '4', '5', '6']"
             variant="outlined"
@@ -510,6 +440,7 @@
               density="compact"
               label="No. of iterations"
               placeholder="No. of iterations"
+              v-model="formData.iterations"
               variant="outlined"
               width="300"
               value="1"
@@ -518,6 +449,7 @@
             <v-select
             class="alignment"
             density="compact"
+            v-model="formData.priority2"
             label="Priority (Optional)"
             :items="['1', '2', '3', '4', '5', '6']"
             variant="outlined"
@@ -528,23 +460,47 @@
 
           <!--5th Row ends-->
 
-        <div class="divider">
-          <v-divider></v-divider>
+          <div class="divider">
+        <v-divider></v-divider>
+      </div>
+      <div class="btn">
+        <div class="space">
+
+         <!--Dialog Starts-->
+          <div class="text-center pa-4">
+            <v-dialog v-model="dialog" max-width="1200" persistent>
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn class="dialog-btn" v-bind="activatorProps"> Submit </v-btn>
+              </template>
+
+              <v-card
+                prepend-icon="mdi-account-details"
+                title="Run Parameters Summary"
+              >
+              <v-card-text>
+              <div v-html="formattedContent"></div>
+            </v-card-text>
+                <template v-slot:actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn @click="dialog = false"> Submit </v-btn>
+
+                  <v-btn @click="dialog = false"> Cancel </v-btn>
+                </template>
+              </v-card>
+            </v-dialog>
+          </div>
         </div>
-        <div class="btn">
-          <div class="space">
-            <v-btn class="space-btn" @click="submit"> SUBMIT </v-btn>
-          </div>
-          <div class="space">
-            <v-btn class="space-btn" @click="navigateToStart"> CANCEL</v-btn>
-          </div>
-          <div class="space">
-            <v-btn class="space-btn" @click="verify"> SAVE RUN PARAMETERS </v-btn>
-          </div>
+        <!--Dialog ends-->
+        <div class="space">
+          <v-btn class="space-btn" @click="navigateToStart"> CANCEL</v-btn>
+        </div>
+        <div class="space">
+          <v-btn class="space-btn" @click="verify"> SAVE RUN PARAMETERS </v-btn>
         </div>
       </div>
+    </div>
       <!-- bv4h2g3-vm-ubuntu2310_test Content ends -->
-    </v-card>
   </template>
 
   <script>
@@ -563,7 +519,7 @@
         model8: false,
         model9: false,
 
-        benchmarkName: '',
+        dialog: false,
 
         isVisible: false,
 
@@ -578,7 +534,26 @@
         isVerified: false, // Track verification status
         verificationStatus: "", // Track displayed text ("Not Verified" or "Verified")
         verificationStyle: { color: "red" }, // Default style for "Not Verified"
-      };
+
+      // Create v-model bindings for form inputs
+      formData: {
+        kbSize: '1',
+        threads: '1',
+        connections: '1',
+        duration: '60',
+        captureLatency: false,
+        header: '',
+        timeout: '',
+        luaScript: '',
+        useSutIp: false,
+        numberOfRuns: '1',
+        runTurbostat: false,
+        iterations: '1',
+        priority1: '',
+        priority2: ''
+      },
+      formattedContent: ''
+    };
     },
     watch: {
       // Watch the selectedSUT to reset status when new selection is made
@@ -601,13 +576,57 @@
           this.verificationStatus = ""; // Clear status if no selection
         }
       },
+      // Watch all form fields for changes
+    'formData': {
+      deep: true,
+      handler(newVal) {
+        this.updateDialogContent();
+      }
+    },
+    dialog(newVal) {
+      if (newVal) {
+        this.updateDialogContent();
+      }
+    }
     },
     methods: {
+      handleSelection() {
+      this.dialog = false
+    },
+    updateDialogContent() {
+      this.formattedContent = `
+        <h3>System Information</h3>
+        <p>
+          Processor: AMD EPYC 7713 64-Core Processor<br>
+          RAM: 15983 MB<br>
+          OS: Ubuntu 23.10 (Mantic Minotaur)<br>
+          Socket(s): 1<br>
+          NUMA node(s): 1
+        </p>
+        <h3>Benchmark Parameters</h3>
+        <p>
+          KB Size: ${this.formData.kbSize}<br>
+          Threads: ${this.formData.threads}<br>
+          Number of Connections: ${this.formData.connections}<br>
+          Duration: ${this.formData.duration} seconds<br>
+          Capture Latency Statistics: ${this.formData.captureLatency ? 'Yes' : 'No'}<br>
+          Header: ${this.formData.header || 'Not provided'}<br>
+          Timeout: ${this.formData.timeout || 'Not set'}<br>
+          LuaJIT Script: ${this.formData.luaScript || 'Not provided'}<br>
+          Use SUT IP: ${this.formData.useSutIp ? 'Yes' : 'No'}<br>
+          Number of Runs: ${this.formData.numberOfRuns}<br>
+          Run Turbostat: ${this.formData.runTurbostat ? 'Yes' : 'No'}<br>
+          Number of Iterations: ${this.formData.iterations}<br>
+          Priority 1: ${this.formData.priority1  || 'Not set'}<br>
+          Priority 2: ${this.formData.priority2  || 'Not set'}
+        </p>
+      `;
+    },
       navigateToStart() {
         this.$router.push("/benchmark-template");
       },
       submit() {
-        this.isVerified = false;
+        this.isVerified = false;  
       },
       handleRunCategoryChange() {
         this.isRunCategoryTouched = true; // Mark as touched when user interacts
@@ -656,8 +675,8 @@
           this.previousSelection = this.selectedSUT;
         }
       },
-      updateName() {
-      this.$store.commit('updateBenchmarkName', this.benchmarkName)
+      triggerParentFunction() {
+      this.$emit("callParentFunction"); // Emit the event
     },
     },
   };
@@ -819,4 +838,8 @@
   :deep(.custom-append-icon) .v-input__append {
     color: blue;
   }
+  .dialog-btn{
+  background-color: black;
+  color: white;
+}
   </style>
