@@ -6,6 +6,7 @@ import Login from '@/components/Login.vue';
 import Nginx from '@/components/RunConfiguration/Nginx.vue';
 import FFMPEG from '@/components/RunConfiguration/FFMPEG.vue';
 import RunConfig from '@/components/RunConfiguration/ScheduleTest.vue';
+import SearchResult from '@/components/SearchResult.vue';
 
 const routes = [
   { path: '/', redirect: '/benchmark-template', meta: { breadcrumb: 'Home' } },
