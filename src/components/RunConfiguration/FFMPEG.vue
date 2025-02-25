@@ -63,222 +63,6 @@
       </div>
       <v-btn class="cancle-btn" @click="navigateToStart"> Cancel </v-btn>
     </div>
-
-    <!-- California Content -->
-    <div v-if="showContent && selectedSUT === 'California'" class="content">
-      <p>
-        AMD EPYC 9755 128-Core Processor<br />
-        Total RAM: 1547142 MB<br />
-        OS Name: Oracle<br />
-        Linux Server OS Version: 8.7<br />
-        Socket(s): 2<br />
-        NUMA node(s): 8<br />
-        NUMA node0<br />
-        CPU(s): 0-31<br />
-        NUMA node1 CPU(s): 32-63<br />
-        NUMA node2 CPU(s): 64-95<br />
-        NUMA node3 CPU(s): 96-127<br />
-        NUMA node4 CPU(s): 128-159<br />
-        NUMA node5 CPU(s): 160-191<br />
-        NUMA node6 CPU(s): 192-223<br />
-        NUMA node7 CPU(s): 224-255<br />
-      </p>
-      <h1 class="data">Database Configuration</h1>
-      <div class="database">
-        <v-select
-          class="alignment"
-          density="compact"
-          label="Select Database"
-          placeholder="Select Database"
-          :items="[
-            'California',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-          variant="outlined"
-          width="300"
-        ></v-select>
-        <v-select
-          class="alignment"
-          density="compact"
-          label="Select Workload"
-          placeholder="Select Workload"
-          :items="[
-            'California',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-          variant="outlined"
-          width="300"
-        ></v-select>
-      </div>
-      <h1 class="data">Run Parameter</h1>
-      <div class="parameter">
-        <v-select
-          class="alignment"
-          density="compact"
-          label="Scale Factor"
-          placeholder="Scale Factor"
-          :items="[
-            'California',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-          variant="outlined"
-          width="300"
-        ></v-select>
-        <v-text-field
-          class="text-area"
-          label="DOP (Degree of Parallel) Power"
-          density="compact"
-          placeholder="DOP (Degree of Parallel) Power"
-          variant="outlined"
-          width="300"
-        ></v-text-field>
-        <v-text-field
-          class="text-area"
-          label="DOP (Degree of Parallel) Throughput"
-          density="compact"
-          placeholder="DOP (Degree of Parallel) Throughput"
-          variant="outlined"
-          width="300"
-        ></v-text-field>
-      </div>
-      <diV class="toggle-para">
-        <diV class="div-width">
-          <v-switch
-            color="info"
-            v-model="model1"
-            label="Use Backup ?"
-            hide-details
-            inset
-            append-icon="mdi-information"
-            class="custom-append-icon"
-          ></v-switch>
-        </diV>
-        <diV class="div-width">
-          <v-switch
-            color="info"
-            v-model="model2"
-            label="With DB Refresh ?"
-            hide-details
-            inset
-            append-icon="mdi-information"
-            class="custom-append-icon"
-          ></v-switch>
-        </diV>
-        <diV class="div-width">
-          <v-switch
-            color="info"
-            v-model="model3"
-            label="Configure ASM disk ? (For Oracle Only)"
-            hide-details
-            inset
-            append-icon="mdi-information"
-            class="custom-append-icon"
-          ></v-switch>
-        </diV>
-      </diV>
-      <div class="toggle-para2">
-        <diV class="div-width">
-          <v-switch
-            color="info"
-            v-model="model4"
-            label="Teardown"
-            hide-details
-            inset
-            append-icon="mdi-information"
-            class="custom-append-icon"
-          ></v-switch>
-        </diV>
-        <diV class="div-width">
-          <v-switch
-            color="info"
-            v-model="model5"
-            label="Use Exisiting Build"
-            hide-details
-            inset
-            append-icon="mdi-information"
-            class="custom-append-icon"
-          ></v-switch>
-        </diV>
-      </div>
-      <div class="runs">
-        <v-select
-          class="alignment"
-          density="compact"
-          label="No. of Runs"
-          placeholder="No. of Runs"
-          :items="['1', '2', '3', '4', '5', '6']"
-          variant="outlined"
-          width="300"
-          persistent-placeholder
-        ></v-select>
-        <v-switch
-          color="info"
-          v-model="model6"
-          label="Run Turbostat"
-          hide-details
-          inset
-        ></v-switch>
-      </div>
-      <div class="parameter">
-        <v-select
-          class="alignment"
-          density="compact"
-          label="Priority (Optional)"
-          :items="[
-            'California',
-            'Colorado',
-            'Florida',
-            'Georgia',
-            'Texas',
-            'Wyoming',
-          ]"
-          variant="outlined"
-          width="300"
-        ></v-select>
-        <v-text-field
-          class="text-area"
-          label="No. of iterations"
-          density="compact"
-          placeholder="No. of iterations"
-          variant="outlined"
-          width="300"
-        ></v-text-field>
-        <v-text-field
-          class="text-area"
-          label="DOP (Degree of Parallel) Throughput"
-          density="compact"
-          placeholder="DOP (Degree of Parallel) Throughput"
-          variant="outlined"
-          width="300"
-        ></v-text-field>
-      </div>
-      <div class="divider">
-        <v-divider></v-divider>
-      </div>
-      <div class="btn">
-        <div class="space">
-          <v-btn class="space-btn" @click="submit"> SUBMIT </v-btn>
-        </div>
-        <div class="space">
-          <v-btn class="space-btn" @click="navigateToStart"> CANCEL</v-btn>
-        </div>
-        <div class="space">
-          <v-btn class="space-btn" @click="verify"> SAVE RUN PARAMETERS </v-btn>
-        </div>
-      </div>
-    </div>
     <!-- bv4h2g3-vm-ubuntu2310_test Content -->
     <div
       v-if="showContent && selectedSUT === 'bv4h2g3-vm-ubuntu2310_test'"
@@ -431,14 +215,15 @@
           value="1"
           persistent-placeholder
         ></v-text-field>
-        <v-select
-          class="alignment"
+        <v-text-field
           density="compact"
-          label="Priority (Optional)"
-          :items="['1', '2', '3', '4', '5', '6']"
-          variant="outlined"
+          v-model="formData.date"
+          class="textarea-width date-input"
           width="300"
-        ></v-select>
+          type="date"
+          label="Select Date"
+          variant="outlined"
+        ></v-text-field>
       </div>
 
       <!--5th Row ends-->
@@ -466,7 +251,7 @@
                 <template v-slot:actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn @click="dialog = false"> Submit </v-btn>
+                  <v-btn @click="dialogFunc"> Submit </v-btn>
 
                   <v-btn @click="dialog = false"> Cancel </v-btn>
                 </template>
@@ -487,9 +272,29 @@
 </template>
   
   <script>
+
 export default {
   data() {
     return {
+
+      BenchmarkTest: "Benchmark Test",
+      BenchMarkName: "Benchmark_Test_FFMPEG_843010",
+      TestType: "FFMPEG",
+      Workload: "",
+      WorkloadTool: "",
+      date: "",
+      initiatedBy: "muzassar@tempmail.com",
+      ansible_setup: "true",
+      server_setup: "single",
+      numjobs: "16",
+      iodepth: "1",
+      ramp_time: "1",
+      disk: "2",
+      mode: "write",
+      blocksize: "128",
+      duration: '60',
+      kbSize: "1",
+
       model1: false,
       model2: false,
       model3: false,
@@ -512,7 +317,8 @@ export default {
         numberOfRuns: '1',
         runTurbostat: false,
         iterations: '1',
-        priority: ''
+        priority: '',
+        date: '',
       },
       formattedContent: '',
 
@@ -569,6 +375,74 @@ export default {
     },
   },
   methods: {
+    dialogFunc(){
+      this.dialog = false;
+      this.apiRunParaConfig();
+      this.$router.push('/benchmark-runs');
+
+    },
+
+    apiRunParaConfig() {
+      fetch(
+        "https://amd-demo-3c3b6-default-rtdb.firebaseio.com/ffmpeg-run-parameters-dialog.json?auth=AIzaSyAhfnwltXip04eV4OxPQpi731JofAdd21o",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            inputFile: this.formData.inputFile || "Not selected",
+            numberOfJobs: this.formData.numberOfJobs || "Not selected",
+            customCoreAffinity: this.formData.customCoreAffinity ? "Yes" : "No",
+            numaNode: this.formData.numaNode || "Not selected",
+            coresPerJob: this.formData.coresPerJob || "Not selected",
+            header: this.formData.header || "Not provided",
+            numberOfRuns: this.formData.numberOfRuns || "1",
+            runTurbostat: this.formData.runTurbostat ? "Yes" : "No",
+            iterations: this.formData.iterations || "1",
+            priority: this.formData.priority || "Not selected",
+            AdditionalParameters: this.formData.additionalParams || 'None',
+            Date: this.formData.date || "-"
+          }),
+        }
+      )
+        .then((response) => response.json()) // Parse response as JSON
+        .then((data) => console.log("Success:", data))
+        .catch((error) => console.error("Error:", error));
+
+        fetch(
+        "https://amd-demo-3c3b6-default-rtdb.firebaseio.com/benchmark-runs-header.json?auth=AIzaSyAhfnwltXip04eV4OxPQpi731JofAdd21o",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "BenchmarkRuns/json",
+          },
+          body: JSON.stringify({
+
+          BenchmarkTest: this.BenchmarkTest,
+          BenchMarkName: this.BenchMarkName,
+          TestType: this.TestType,
+          Workload: this.Workload || "-",
+          WorkloadTool: this.WorkloadTool || "-",
+          sut: this.selectedSUT || "-",
+          date: this.formData.date || "-",
+          initiatedBy: this.initiatedBy,
+          ansible_setup: this.ansible_setup,
+          server_setup: this.server_setup,
+          noOfiterations: this.formData.iterations,
+          size: this.kbSize,
+          runtime: this.duration,
+          numjobs: this.formData.numberOfJobs,
+          iodepth: this.iodepth,  
+          ramp_time: this.ramp_time,
+          disk: this.disk,
+          mode: this.mode,
+          blocksize: this.blocksize
+          }),
+        }
+      )
+    },
+
     navigateToStart() {
       this.$router.push("/benchmark-template");
     },
@@ -666,7 +540,8 @@ export default {
           Number of Runs: ${this.formData.numberOfRuns || '1'}<br>
           Run Turbostat: ${this.formData.runTurbostat ? 'Yes' : 'No'}<br>
           Number of Iterations: ${this.formData.iterations || '1'}<br>
-          Priority: ${this.formData.priority || 'Not selected'}
+          Priority: ${this.formData.priority || 'Not selected'}<br>
+          Date: ${this.formData.date || 'Not selected'}<br>
         </p>
         <h3>Additional Parameters</h3>
         <pre style="white-space: pre-wrap; word-break: break-word;">${this.formData.additionalParams || 'None'}</pre>
@@ -680,6 +555,26 @@ export default {
 </script>
   
 <style scoped>
+.textarea-width {
+  margin-top: 0.9rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 300 !important; /* Adjust width */
+  min-width: 200px !important;
+}
+.date-input :deep(.v-field__input) {
+  position: relative;
+}
+
+.date-input :deep(.v-field__input)::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  margin-right: 8px;
+}
+::v-deep(.v-data-table thead) {
+  background-color: black !important;
+  color: white !important;
+}
 :deep(.custom-append-icon) .v-input__append {
   color: blue;
 }

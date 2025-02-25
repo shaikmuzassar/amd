@@ -7,8 +7,12 @@
     :search="search"
     class="custom-table"
   >
-    <template v-slot:item.index="{ index }">
+  <template v-slot:item.index="{ index }">
       {{ index + 1 }}
+    </template>
+    <!-- Add status column template -->
+    <template v-slot:item.status="{ item }">
+      <span class="status-text">{{ item.status }}</span>
     </template>
     <template v-slot:top>
       <v-toolbar flat class="white-background">
@@ -114,6 +118,9 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
+      <v-icon class="me-2" size="small" @click="showDetails(item)">
+        mdi-account-details
+      </v-icon>
       <v-icon class="me-2" size="small" @click="editItem(item)">
         mdi-pencil
       </v-icon>
@@ -123,12 +130,73 @@
       <v-btn color="primary" @click="initialize"> Reset </v-btn>
     </template>
   </v-data-table>
+  <!-- New Details Dialog -->
+  <v-dialog v-model="detailsDialog" max-width="1200">
+    <v-card>
+      <v-card-title class="text-h5">
+        {{ selectedItem?.name }} Details
+      </v-card-title>
+
+      <v-card-text>
+        <v-container v-if="selectedItem">
+          <!-- Basic Info Section -->
+          <v-row>
+            <v-col cols="12">
+              <h3 class="text-h6">Basic Information</h3>
+              <v-divider class="mb-4"></v-divider>
+            </v-col>
+            <v-col cols="6">
+              <strong>Name:</strong> {{ selectedItem.name }}
+            </v-col>
+            <v-col cols="6">
+              <strong>Benchmark Type:</strong> {{ selectedItem.benchmark }}
+            </v-col>
+            <v-col cols="6">
+              <strong>Category:</strong> {{ selectedItem.category }}
+            </v-col>
+            <v-col cols="6">
+              <strong>Status:</strong> {{ selectedItem.status }}
+            </v-col>
+            <v-col cols="12">
+              <strong>Config Name:</strong> {{ selectedItem.configName }}
+            </v-col>
+          </v-row>
+
+          <!-- Dynamic Details Section -->
+          <v-row v-if="getItemSpecificDetails">
+            <v-col cols="12">
+              <h3 class="text-h6 mt-4">System Requirements</h3>
+              <v-divider class="mb-4"></v-divider>
+              <pre>{{ selectedItem.systemInfo }}</pre>
+            </v-col>
+            <v-col cols="12">
+              <h3 class="text-h6 mt-4">Run Parameters Summary</h3>
+              <v-divider class="mb-4"></v-divider>
+            </v-col>
+            <v-col cols="12">
+              <div v-html="getItemSpecificDetails"></div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue-darken-1" variant="text" @click="closeDetails">
+          Close
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
   
 <script>
 export default {
   name: "BenchMark",
   data: () => ({
+    detailsDialog: false,
+    selectedItem: null,
+
     //   routingMap: {
     //   '1': '/Nginx',
     //   '2': '/FFMPEG',
@@ -147,6 +215,16 @@ export default {
       { title: "Date", key: "date" },
       { title: "Actions", key: "actions", sortable: false },
     ],
+
+    itemSpecificDetails: {
+      Nginx: {
+        // Add more Nginx specific fields as needed
+      },
+      FFMPEG: {
+        // You can add FFMPEG specific details here later
+        // Add more FFMPEG specific fields as needed
+      },
+    },
 
     desserts: [],
     search: "",
@@ -171,6 +249,23 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
+    getItemSpecificDetails() {
+      if (!this.selectedItem) return null;
+
+      const details = this.itemSpecificDetails[this.selectedItem.name];
+      if (!details) return null;
+
+      // Convert the details object to HTML
+      return Object.entries(details)
+        .map(
+          ([key, value]) => `
+          <div class="mb-2">
+            <strong>${key}:</strong> ${value}
+          </div>
+        `
+        )
+        .join("");
+    },
   },
 
   watch: {
@@ -185,7 +280,44 @@ export default {
     this.initialize();
   },
   methods: {
-    
+    fetchNginxData() {
+      fetch(
+        "https://amd-demo-3c3b6-default-rtdb.firebaseio.com/nginx-run-parameters-dialog.json?auth=AIzaSyAhfnwltXip04eV4OxPQpi731JofAdd21o"
+      )
+        .then((response) => response.json()) // Parse response as JSON
+        .then((data) => {
+          console.log("Fetched Data:", data);
+
+          // Store fetched data inside itemSpecificDetails.Nginx
+          this.itemSpecificDetails.Nginx = data;
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    },
+    fetchFFMEPGData() {
+      fetch(
+        "https://amd-demo-3c3b6-default-rtdb.firebaseio.com/ffmpeg-run-parameters-dialog.json?auth=AIzaSyAhfnwltXip04eV4OxPQpi731JofAdd21o"
+      )
+        .then((response) => response.json()) // Parse response as JSON
+        .then((data) => {
+          console.log("Fetched Data:", data);
+
+          // Store fetched data inside itemSpecificDetails.Nginx
+          this.itemSpecificDetails.FFMPEG = data;
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    },
+    showDetails(item) {
+      this.fetchNginxData();
+      this.fetchFFMEPGData();
+      this.selectedItem = item;
+      this.detailsDialog = true;
+    },
+
+    closeDetails() {
+      this.detailsDialog = false;
+      this.selectedItem = null;
+    },
+
     navigateToSchedule(item) {
       this.$router.replace({
         path: "/Schedule_Test",
@@ -197,7 +329,6 @@ export default {
       });
     },
 
-
     initialize() {
       this.desserts = [
         {
@@ -208,7 +339,14 @@ export default {
           status: "APPROVED",
           date: "Jan/21/2025",
           configName: "Benchmark_Test_Nginx_439210",
-          description: "Nginx Micro-Benchmark"
+          description: "Nginx Micro-Benchmark",
+          systemInfo: `AMD EPYC 7713 64-Core Processor
+Total RAM: 15983 MB
+OS Name: Ubuntu
+OS Version: 23.10 (Mantic Minotaur)
+Socket(s): 1
+NUMA node(s): 1
+NUMA node0 CPU(s): 0-7`,
         },
         {
           id: 2,
@@ -218,7 +356,14 @@ export default {
           status: "APPROVED",
           date: "Jan/21/2025",
           configName: "Benchmark_Test_FFMPEG_843010",
-          description: "Benchmark for FFMPEG"
+          description: "Benchmark for FFMPEG",
+          systemInfo: `AMD EPYC 7713 64-Core Processor
+Total RAM: 15983 MB
+OS Name: Ubuntu
+OS Version: 23.10 (Mantic Minotaur)
+Socket(s): 1
+NUMA node(s): 1
+NUMA node0 CPU(s): 0-7`,
         },
         {
           name: "TCO-H_ORACLE",
@@ -325,6 +470,9 @@ export default {
 </script>
 
   <style>
+.status-text {
+  color: #4CAF50; /* Green color */
+}
 .new-item-btn {
   background-color: black;
   color: white;

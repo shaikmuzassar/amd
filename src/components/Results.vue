@@ -23,7 +23,7 @@
           ></v-list-item>
           <v-list-item
             title="Benchmark runs"
-          
+            to="/benchmark-runs"
             prepend-icon="mdi-approximately-equal"
             class="items"
             value="000"

@@ -7,6 +7,7 @@ import Nginx from '@/components/RunConfiguration/Nginx.vue';
 import FFMPEG from '@/components/RunConfiguration/FFMPEG.vue';
 import RunConfig from '@/components/RunConfiguration/ScheduleTest.vue';
 import SearchResult from '@/components/SearchResult.vue';
+import BenchmarkRuns from '@/components/BenchmarkRuns.vue';
 
 const routes = [
   { path: '/', redirect: '/benchmark-template', meta: { breadcrumb: 'Home' } },
@@ -16,7 +17,8 @@ const routes = [
   {path:"/login" ,component: Login , name:"Login" , meta: { hideNavbar: true },},
   {path: '/Nginx',component:Nginx, name: "Nginx Schedule Test" ,meta: { breadcrumb: 'Home / Start / Schedule'}},
   {path: '/FFMPEG',component: FFMPEG , name: "FFMPEG Schedule Test" ,meta: { breadcrumb: 'Home / Start / Schedule'}},
-  {path: '/Schedule_Test', component: RunConfig, name: 'Schedule Test'}
+  {path: '/Schedule_Test', component: RunConfig, name: 'Schedule Test'},
+  { path: '/benchmark-runs', component: BenchmarkRuns ,name: 'Benchmark Runs', meta: { breadcrumb: 'Home / Benchmark Runs' }},
 ];
 
 const router = createRouter({
